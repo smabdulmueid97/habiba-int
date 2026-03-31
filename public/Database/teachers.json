@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "কাজী নজরুল ইসলাম",
+    "designation": "প্রধান শিক্ষক",
+    "subject": "বাংলা ও সাহিত্য",
+    "experience": "১২ বছর",
+    "phone": "০১৭XX-XXXXXX",
+    "image": "5.jpg"
+  },
+  {
+    "id": 2,
+    "name": "রোকাইয়া সুলতানা",
+    "designation": "সহকারী শিক্ষক",
+    "subject": "গণিত ও বিজ্ঞান",
+    "experience": "৮ বছর",
+    "phone": "০১৮XX-XXXXXX",
+    "image": "10.jpg"
+  },
+  {
+    "id": 3,
+    "name": "শফিকুল আলম",
+    "designation": "সিনিয়র শিক্ষক",
+    "subject": "ইংরেজি",
+    "experience": "১৫ বছর",
+    "phone": "০১৯XX-XXXXXX",
+    "image": "11.jpg"
+  },
+  {
+    "id": 4,
+    "name": "ফাতেমা বেগম",
+    "designation": "সহকারী শিক্ষক",
+    "subject": "ধর্ম ও নৈতিক শিক্ষা",
+    "experience": "৫ বছর",
+    "phone": "০১৫XX-XXXXXX",
+    "image": "25.jpg"
+  },
+  {
+    "id": 5,
+    "name": "আব্দুর রহমান",
+    "designation": "সহকারী শিক্ষক",
+    "subject": "ইতিহাস ও সমাজবিজ্ঞান",
+    "experience": "৬ বছর",
+    "phone": "০১৬XX-XXXXXX",
+    "image": "27.jpg"
+  }
+]
