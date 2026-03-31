@@ -5,3 +5,64 @@
     @apply bg-white text-gray-900;
   }
 }
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes colorShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes danceAndJump {
+  0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+  10% { transform: translateY(-20px) scale(1.1) rotate(5deg); }
+  20% { transform: translateY(0) scale(1) rotate(-5deg); }
+  30% { transform: translateY(-10px) scale(1.05) rotate(3deg); }
+  40% { transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+@keyframes borderRotate {
+  0% { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+
+@layer utilities {
+  .animate-color-shift {
+    animation: colorShift 5s ease infinite;
+    background-size: 200% auto;
+  }
+
+  .animate-dance-jump {
+    animation: danceAndJump 3s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  .btn-rainbow-focus {
+    @apply relative p-1 rounded-full overflow-hidden inline-block;
+  }
+
+  .btn-rainbow-focus::before {
+    content: '';
+    @apply absolute -inset-[2px] rounded-full z-0 pointer-events-none;
+    background: conic-gradient(
+      from var(--angle), 
+      transparent 25%, 
+      #ff0000 35%, 
+      #ffff00 45%, 
+      #00ff00 50%, 
+      #00ffff 55%, 
+      #0000ff 65%, 
+      transparent 75%
+    );
+    animation: borderRotate 2s linear infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
