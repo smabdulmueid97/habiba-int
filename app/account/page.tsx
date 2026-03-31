@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaUserGraduate, FaChalkboardTeacher, FaUserShield, FaLock } from 'react-icons/fa';
 
@@ -13,7 +13,7 @@ export default function AccountPage() {
   const [password, setPassword] = useState('');
 
   // Mock Login Function
-  const handleLogin = (e: React.FormEvent, selectedRole: string) => {
+  const handleLogin = (e: FormEvent<HTMLFormElement>, selectedRole: string) => {
     e.preventDefault();
     
     // For now, we will simulate a successful login
@@ -92,7 +92,21 @@ export default function AccountPage() {
 }
 
 // Reusable UI Component for the Login Cards
-function LoginCard({ title, icon, label, placeholder, type, onSubmit, onIdChange, onPassChange }: any) {
+type LoginCardProps = {
+  title: string;
+  icon: React.ReactNode;
+  label: string;
+  placeholder: string;
+  type: string;
+  role: 'student' | 'teacher' | 'admin';
+  value: string;
+  passValue: string;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onIdChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onPassChange: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
+function LoginCard({ title, icon, label, placeholder, type, role, value, passValue, onSubmit, onIdChange, onPassChange }: LoginCardProps) {
   return (
     <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-gray-100 flex flex-col hover:border-purple-300 transition-all">
       <div className="text-5xl mb-4 flex justify-center">{icon}</div>

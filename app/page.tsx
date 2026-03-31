@@ -12,7 +12,7 @@ export default function Home() {
         autoPlay loop muted playsInline 
         className="absolute inset-0 w-full h-full object-cover z-0 opacity-10 pointer-events-none"
       >
-        <source src="/Background/bg1.mp4" type="video/mp4" />
+        <source src="/Background/bg2.mp4" type="video/mp4" />
       </video>
 
       <div className="relative z-10">
