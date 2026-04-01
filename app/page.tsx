@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { FaUserPlus, FaCheckCircle, FaLaptopCode, FaVideo, FaBookOpen, FaAward } from 'react-icons/fa';
+import { FaUserPlus, FaLaptopCode, FaVideo, FaBookOpen } from 'react-icons/fa';
 
 export default function Home() {
   return (
@@ -40,7 +40,7 @@ export default function Home() {
                 <FeatureBadge icon={<FaBookOpen />} text="আরবি সম্পূর্ণ ফ্রি" />
               </div>
 
-              <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
                 {/* RAINBOW BUTTON CONTAINER */}
                 <Link 
                   href="/admission" 
@@ -51,55 +51,17 @@ export default function Home() {
                   </span>
                 </Link>
                 
-                <Link href="/rules-info" className="bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-4 rounded-xl font-bold text-base transition-all backdrop-blur-md">
-                  বিস্তারিত জানুন
-                </Link>
-              </div>
-            </div>
-
-            {/* Right Side: Dancing Logo */}
-            <div className="lg:w-2/5 w-full relative flex justify-center lg:justify-end">
-              <div className="bg-white/5 p-4 rounded-[2.5rem] backdrop-blur-sm border border-white/10 shadow-2xl relative max-w-sm">
-                <img 
-                  src="/logo.png" 
-                  alt="Habiba School Logo" 
-                  className="w-full h-auto rounded-[2rem] drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] animate-dance-jump"
-                />
-                
-                <div className="absolute -top-6 -left-6 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-3 border border-gray-100 animate-pulse-slow">
-                  <div className="bg-amber-100 p-2.5 rounded-xl text-amber-600 text-xl"><FaAward /></div>
-                  <div className="text-left">
-                    <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">পাসের হার</p>
-                    <p className="text-2xl font-black text-slate-950 tracking-tighter">১০০০%</p>
-                  </div>
+                {/* REPLACED BUTTON WITH LOCATION */}
+                <div className="bg-white/5 text-white border border-white/20 px-6 py-4 rounded-xl font-bold text-base md:text-lg backdrop-blur-md flex items-center shadow-lg">
+                  📍 ২৯ আল মদিনা রোড, মিরপুর-১
                 </div>
               </div>
             </div>
 
-          </div>
-        </section>
-
-        {/* --- MAP SECTION (FIXED URL) --- */}
-        <section className="py-20 px-6">
-          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-16">
-            
-            <div className="lg:w-1/2 space-y-6">
-              <span className="text-slate-700 font-black tracking-widest uppercase">লোকেশন</span>
-              <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-                সহজেই আমাদের <span className="text-slate-600">খুঁজে পান</span>
-              </h2>
-              <p className="text-gray-600 text-lg">
-                মিরপুর-১ এর প্রাণকেন্দ্রে নিরাপদ ও মনোরম পরিবেশে আমাদের ক্যাম্পাস অবস্থিত।
-              </p>
-              <div className="p-6 bg-slate-50 rounded-2xl border-l-8 border-slate-950 shadow-sm">
-                <p className="text-slate-950 font-bold text-xl">📍 ২৯ আল মদিনা রোড, মিরপুর-১</p>
-                <p className="text-gray-500 mt-2 font-medium">শনি-বৃহস্পতি (সকাল ৮টা - বিকাল ৪টা)</p>
-              </div>
-            </div>
-
-            <div className="lg:w-1/2 w-full">
-              <div className="w-full max-w-lg bg-white p-4 rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden ml-auto">
-                <div className="relative w-full h-80 rounded-3xl overflow-hidden bg-gray-100">
+            {/* Right Side: Location Map (Mobile Responsive) */}
+            <div className="lg:w-2/5 w-full relative flex justify-center lg:justify-end mt-8 lg:mt-0">
+              <div className="w-full max-w-md bg-white/10 p-3 rounded-[2rem] backdrop-blur-md border border-white/20 shadow-2xl relative">
+                <div className="relative w-full h-64 md:h-80 rounded-3xl overflow-hidden bg-gray-100">
                   <iframe 
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.643336440232!2d90.344445376106!3d23.795701887034176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c0e0727a0431%3A0xe52a5b521283c254!2sHabiba%20international%20school!5e0!3m2!1sen!2sbd!4v1711960000000!5m2!1sen!2sbd" 
                     className="absolute top-0 left-0 w-full h-full border-0" 
@@ -107,8 +69,8 @@ export default function Home() {
                     title="Google Map Location"
                   ></iframe>
                 </div>
-                <div className="mt-4 text-center">
-                  <a href="https://maps.app.goo.gl/MQR6cgDBVTcRVMKDElJbKuU" target="_blank" className="inline-block bg-slate-950 text-white px-10 py-3 rounded-xl font-bold hover:bg-black transition shadow-lg text-sm">
+                <div className="mt-4 text-center pb-2">
+                  <a href="https://maps.app.goo.gl/MQR6cgDBVTcRVMKDElJbKuU" target="_blank" className="inline-block bg-amber-400 text-slate-950 px-8 py-3 rounded-xl font-bold hover:bg-amber-500 transition shadow-lg text-sm">
                     গুগল ম্যাপে দেখুন
                   </a>
                 </div>

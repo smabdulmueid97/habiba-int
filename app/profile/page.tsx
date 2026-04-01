@@ -1,3 +1,4 @@
+// File: app/profile/page.tsx
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -5,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { 
   FaUserCircle, FaSignOutAlt, FaGraduationCap, FaChalkboardTeacher, 
   FaUserShield, FaFileInvoiceDollar, FaClipboardList, FaUsers, 
-  FaBullhorn, FaCogs, FaChartLine, FaDatabase 
+  FaBullhorn, FaCogs, FaChartLine, FaDatabase, FaCheck, FaTimes
 } from 'react-icons/fa';
 
 export default function ProfilePage() {
@@ -30,7 +31,7 @@ export default function ProfilePage() {
     router.push('/account');
   };
 
-  if (isLoading) return <div className="p-10 text-center font-bold text-purple-900">সিস্টেম লোড হচ্ছে...</div>;
+  if (isLoading) return <div className="p-10 text-center font-bold text-purple-900 text-xl">সিস্টেম লোড হচ্ছে... (Loading System...)</div>;
 
   return (
     <main className="min-h-screen bg-gray-50 p-4 md:p-12">
@@ -71,11 +72,12 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {/* Dashboard Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {/* Render the correct dashboard based on role */}
+        {role === 'admin' && <AdminDashboard />}
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
           {role === 'student' && <StudentDashboard />}
           {role === 'teacher' && <TeacherDashboard />}
-          {role === 'admin' && <AdminDashboard />}
         </div>
 
       </div>
@@ -83,19 +85,119 @@ export default function ProfilePage() {
   );
 }
 
-/* --- ADMIN DASHBOARD: ACCESS TO EVERYTHING --- */
+/* --- ADMIN DASHBOARD: ACCESS TO EVERYTHING & PENDING ADMISSIONS --- */
 function AdminDashboard() {
+  const [students, setStudents] = useState<any[]>([]);
+  const [isFetching, setIsFetching] = useState(true);
+
+  // Fetch students from our API
+  const fetchStudents = async () => {
+    try {
+      const res = await fetch('/api/admin/admissions');
+      const data = await res.json();
+      if (data.success) {
+        setStudents(data.students);
+      }
+    } catch (error) {
+      console.error("Failed to fetch students", error);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
+  // Handle approving a student
+  const handleApprove = async (id: string) => {
+    try {
+      const res = await fetch('/api/admin/admissions', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status: 'approved' })
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        // Refresh the list after successful approval
+        fetchStudents();
+        alert("শিক্ষার্থীর রেজিস্ট্রেশন সফলভাবে অনুমোদিত হয়েছে!"); // Registration approved successfully
+      } else {
+        alert("Approval failed.");
+      }
+    } catch (error) {
+      console.error("Error approving student", error);
+    }
+  };
+
+  // Filter out only the pending students
+  const pendingStudents = students.filter(student => student.status === 'pending');
+
   return (
-    <>
-      <DashboardCard icon={<FaUsers />} title="সকল শিক্ষার্থী" desc="সকল ক্লাসের ডাটাবেস ম্যানেজ করুন" color="text-blue-600" />
-      <DashboardCard icon={<FaChalkboardTeacher />} title="শিক্ষক ম্যানেজমেন্ট" desc="নতুন শিক্ষক নিয়োগ ও প্রোফাইল" color="text-green-600" />
-      <DashboardCard icon={<FaFileInvoiceDollar />} title="অ্যাকাউন্টস ও ফি" desc="বেতন সংগ্রহ ও খরচের রিপোর্ট" color="text-emerald-600" />
-      <DashboardCard icon={<FaBullhorn />} title="নোটিশ পাবলিশ" desc="ওয়েবসাইটে নতুন নোটিশ আপলোড করুন" color="text-orange-600" />
-      <DashboardCard icon={<FaChartLine />} title="ফলাফল ম্যানেজমেন্ট" desc="পুরো স্কুলের রেজাল্ট প্রসেসিং" color="text-indigo-600" />
-      <DashboardCard icon={<FaDatabase />} title="ব্যাকআপ ডাটা" desc="সিস্টেমের সব তথ্যের ব্যাকআপ নিন" color="text-gray-600" />
-      <DashboardCard icon={<FaClipboardList />} title="ক্লাস রুটিন সেটআপ" desc="মাস্টার রুটিন এডিট করুন" color="text-purple-600" />
-      <DashboardCard icon={<FaCogs />} title="রোল পারমিশন" desc="কে কি দেখতে পারবে তা ঠিক করুন" color="text-red-600" />
-    </>
+    <div className="space-y-8">
+      {/* 1. Pending Admissions Section */}
+      <div className="bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-red-100">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+          <FaUserShield className="text-red-500" /> অপেক্ষমাণ রেজিস্ট্রেশন (Pending Admissions)
+          <span className="bg-red-500 text-white text-sm px-3 py-1 rounded-full ml-2">
+            {pendingStudents.length}
+          </span>
+        </h2>
+        
+        {isFetching ? (
+          <p className="text-gray-500">ডাটা লোড হচ্ছে... (Loading data...)</p>
+        ) : pendingStudents.length === 0 ? (
+          <div className="bg-green-50 text-green-700 p-4 rounded-xl font-medium border border-green-200">
+            বর্তমানে কোনো অপেক্ষমাণ রেজিস্ট্রেশন নেই। (No pending registrations at the moment.)
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-gray-100 text-gray-700">
+                  <th className="p-4 rounded-tl-xl font-bold">স্টুডেন্ট আইডি (ID)</th>
+                  <th className="p-4 font-bold">নাম (Name)</th>
+                  <th className="p-4 font-bold">শ্রেণি (Class)</th>
+                  <th className="p-4 font-bold">মোবাইল (Phone)</th>
+                  <th className="p-4 rounded-tr-xl font-bold text-center">অ্যাকশন (Action)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pendingStudents.map((student) => (
+                  <tr key={student.id} className="border-b border-gray-100 hover:bg-gray-50 transition">
+                    <td className="p-4 font-mono font-bold text-purple-700">{student.id}</td>
+                    <td className="p-4 font-medium text-gray-800">{student.studentName}</td>
+                    <td className="p-4 text-gray-600">Class {student.classLevel}</td>
+                    <td className="p-4 text-gray-600">{student.phone}</td>
+                    <td className="p-4 text-center">
+                      <button 
+                        onClick={() => handleApprove(student.id)}
+                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-bold shadow-sm transition flex items-center gap-2 mx-auto"
+                      >
+                        <FaCheck /> অনুমোদন করুন
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* 2. Standard Admin Grid Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <DashboardCard icon={<FaUsers />} title="সকল শিক্ষার্থী" desc="সকল ক্লাসের ডাটাবেস ম্যানেজ করুন" color="text-blue-600" />
+        <DashboardCard icon={<FaChalkboardTeacher />} title="শিক্ষক ম্যানেজমেন্ট" desc="নতুন শিক্ষক নিয়োগ ও প্রোফাইল" color="text-green-600" />
+        <DashboardCard icon={<FaFileInvoiceDollar />} title="অ্যাকাউন্টস ও ফি" desc="বেতন সংগ্রহ ও খরচের রিপোর্ট" color="text-emerald-600" />
+        <DashboardCard icon={<FaBullhorn />} title="নোটিশ পাবলিশ" desc="ওয়েবসাইটে নতুন নোটিশ আপলোড করুন" color="text-orange-600" />
+        <DashboardCard icon={<FaChartLine />} title="ফলাফল ম্যানেজমেন্ট" desc="পুরো স্কুলের রেজাল্ট প্রসেসিং" color="text-indigo-600" />
+        <DashboardCard icon={<FaDatabase />} title="ব্যাকআপ ডাটা" desc="সিস্টেমের সব তথ্যের ব্যাকআপ নিন" color="text-gray-600" />
+        <DashboardCard icon={<FaClipboardList />} title="ক্লাস রুটিন সেটআপ" desc="মাস্টার রুটিন এডিট করুন" color="text-purple-600" />
+        <DashboardCard icon={<FaCogs />} title="রোল পারমিশন" desc="কে কি দেখতে পারবে তা ঠিক করুন" color="text-red-600" />
+      </div>
+    </div>
   );
 }
 
@@ -115,7 +217,7 @@ function StudentDashboard() {
     <>
       <DashboardCard icon={<FaGraduationCap />} title="আমার রেজাল্ট" desc="আপনার পরীক্ষার ফলাফল দেখুন" color="text-blue-600" />
       <DashboardCard icon={<FaFileInvoiceDollar />} title="পেমেন্ট হিস্ট্রি" desc="বেতন ও ফি সংক্রান্ত তথ্য" color="text-green-600" />
-      <DashboardCard icon={<FaClipboardList />} title="ক্লাস রুটিন" desc="আপনার দৈনিক ক্লাসের সময়সূচী" color="text-purple-600" />
+      <DashboardCard icon={<FaClipboardList />} title="ক্লাস রুটিন" desc="আপনার দৈনিক ক্লাসের সময়সূচী" color="text-purple-600" />
     </>
   );
 }
