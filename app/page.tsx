@@ -70,7 +70,7 @@ export default function Home() {
                   ></iframe>
                 </div>
                 <div className="mt-4 text-center pb-2">
-                  <a href="https://maps.app.goo.gl/MQR6cgDBVTcRVMKDElJbKuU" target="_blank" className="inline-block bg-amber-400 text-slate-950 px-8 py-3 rounded-xl font-bold hover:bg-amber-500 transition shadow-lg text-sm">
+                  <a href="https://maps.app.goo.gl/BTE7EA2fDgbrSAKR7" target="_blank" className="inline-block bg-amber-400 text-slate-950 px-8 py-3 rounded-xl font-bold hover:bg-amber-500 transition shadow-lg text-sm">
                     গুগল ম্যাপে দেখুন
                   </a>
                 </div>
