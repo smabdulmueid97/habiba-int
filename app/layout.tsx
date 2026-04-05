@@ -5,6 +5,7 @@ import "./globals.css";
 // 1. Import your Navbar and new Footer components
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,16 +20,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="bn">
       <body className={inter.className}>
-        {/* The Navbar stays at the top */}
-        <Navbar />
-        
-        {/* The page content renders here */}
-        {children}
-        
-        {/* 2. Place the Footer at the bottom so it appears on all pages! */}
-        <Footer />
+        <LanguageProvider>
+          {/* The Navbar stays at the top */}
+          <Navbar />
+          
+          {/* The page content renders here */}
+          {children}
+          
+          {/* 2. Place the Footer at the bottom so it appears on all pages! */}
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

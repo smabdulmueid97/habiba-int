@@ -2,18 +2,24 @@
 
 import { FaBookReader, FaBriefcase, FaPhoneAlt } from "react-icons/fa";
 import teachers from '../../public/Database/teachers.json';
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Teachers() {
+  const { t, language } = useLanguage();
+
   return (
     <main className="min-h-[calc(100vh-80px)] bg-white p-6 md:p-12">
       
       {/* Page Header */}
       <div className="max-w-6xl mx-auto mb-10 text-center">
         <h1 className="text-3xl md:text-4xl font-extrabold text-purple-900">
-          আমাদের শিক্ষকগণ
+          {t("আমাদের শিক্ষকগণ", "Our Teachers")}
         </h1>
         <p className="mt-3 text-gray-700 text-sm md:text-base max-w-3xl mx-auto">
-          আমাদের রয়েছেন একদল উচ্চ শিক্ষিত, অভিজ্ঞ এবং নিবেদিতপ্রাণ শিক্ষকমণ্ডলী, যারা শিক্ষার্থীদের উজ্জ্বল ভবিষ্যৎ গড়তে সর্বদা সচেষ্ট।
+          {t(
+            "আমাদের রয়েছেন একদল উচ্চ শিক্ষিত, অভিজ্ঞ এবং নিবেদিতপ্রাণ শিক্ষকমণ্ডলী, যারা শিক্ষার্থীদের উজ্জ্বল ভবিষ্যৎ গড়তে সর্বদা সচেষ্ট।",
+            "We have a team of highly educated, experienced, and dedicated teachers committed to building a bright future for our students."
+          )}
         </p>
       </div>
 
@@ -45,10 +51,10 @@ export default function Teachers() {
               {/* Name AND Designation */}
               <div className="md:col-span-1 flex flex-col justify-center">
                 <h2 className="text-xl md:text-2xl font-bold text-gray-900">
-                  {teacher.name}
+                  {language === "BN" ? teacher.name : teacher.nameEn ?? teacher.name}
                 </h2>
                 <span className="text-sm md:text-base font-bold text-purple-700 mt-1">
-                  {teacher.designation}
+                  {language === "BN" ? teacher.designation : teacher.designationEn ?? teacher.designation}
                 </span>
               </div>
               
@@ -58,8 +64,10 @@ export default function Teachers() {
                   <FaBookReader />
                 </div>
                 <span className="font-medium">
-                  <span className="text-gray-500 text-xs block md:inline md:mr-1">বিষয়:</span>
-                  {teacher.subject}
+                  <span className="text-gray-500 text-xs block md:inline md:mr-1">
+                    {t("বিষয়:", "Subject:")}
+                  </span>
+                  {language === "BN" ? teacher.subject : teacher.subjectEn ?? teacher.subject}
                 </span>
               </div>
 
@@ -69,8 +77,10 @@ export default function Teachers() {
                   <FaBriefcase />
                 </div>
                 <span className="font-medium">
-                  <span className="text-gray-500 text-xs block md:inline md:mr-1">অভিজ্ঞতা:</span>
-                  {teacher.experience}
+                  <span className="text-gray-500 text-xs block md:inline md:mr-1">
+                    {t("অভিজ্ঞতা:", "Experience:")}
+                  </span>
+                  {language === "BN" ? teacher.experience : teacher.experienceEn ?? teacher.experience}
                 </span>
               </div>
 
@@ -80,8 +90,10 @@ export default function Teachers() {
                   <FaPhoneAlt />
                 </div>
                 <span className="font-medium">
-                  <span className="text-gray-500 text-xs block md:inline md:mr-1">মোবাইল:</span>
-                  {teacher.phone}
+                  <span className="text-gray-500 text-xs block md:inline md:mr-1">
+                    {t("মোবাইল:", "Phone:")}
+                  </span>
+                  {language === "BN" ? teacher.phone : teacher.phoneEn ?? teacher.phone}
                 </span>
               </div>
 
@@ -89,11 +101,11 @@ export default function Teachers() {
             
             {/* Mobile Call Button */}
             <div className="md:hidden w-full mt-2">
-               <a 
-                 href={`tel:${teacher.phone}`} 
+             <a 
+                 href={`tel:${language === "BN" ? teacher.phone : teacher.phoneEn ?? teacher.phone}`} 
                  className="block w-full text-center bg-purple-100 text-purple-800 font-bold py-2 rounded-lg text-sm hover:bg-purple-200 transition"
                >
-                 কল করুন
+                 {t("কল করুন", "Call Now")}
                </a>
             </div>
 

@@ -2,21 +2,35 @@
   {
     "id": 1,
     "year": "২০২৫",
+    "yearEn": "2025",
     "title": "এসএসসি ও সহশিক্ষা কার্যক্রম",
+    "titleEn": "SSC and Co-curricular Activities",
     "achievements": [
       "এসএসসি পরীক্ষায় ১০০% পাসের হার এবং ৫০ জন শিক্ষার্থীর এ+ অর্জন।",
       "জেলা পর্যায়ে আন্তঃস্কুল বিজ্ঞান মেলায় প্রথম স্থান অধিকার।",
       "জাতীয় বিতর্ক প্রতিযোগিতায় রানার্সআপ ট্রফি অর্জন।"
+    ],
+    "achievementsEn": [
+      "100% pass rate in SSC; 50 students achieved A+.",
+      "First place in the inter-school science fair at district level.",
+      "Runner-up trophy in the national debate competition."
     ]
   },
   {
     "id": 2,
     "year": "২০২৪",
+    "yearEn": "2024",
     "title": "একাডেমিক ও ক্রীড়া সাফল্য",
+    "titleEn": "Academic and Sports Achievements",
     "achievements": [
       "এসএসসি পরীক্ষায় ৯৯% পাসের হার এবং ৪২ জন শিক্ষার্থীর এ+ অর্জন।",
       "বিভাগীয় পর্যায়ে স্কুল ক্রিকেট টুর্নামেন্টে চ্যাম্পিয়ন।",
       "জাতীয় গণিত অলিম্পিয়াডে স্বর্ণপদক অর্জন।"
+    ],
+    "achievementsEn": [
+      "99% pass rate in SSC; 42 students achieved A+.",
+      "Champions in the divisional school cricket tournament.",
+      "Gold medal in the National Math Olympiad."
     ]
   }
 ]

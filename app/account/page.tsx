@@ -3,9 +3,11 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaUserGraduate, FaChalkboardTeacher, FaUserShield, FaLock } from 'react-icons/fa';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function AccountPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   
   // State to track which role is currently being typed into
   const [role, setRole] = useState<'student' | 'teacher' | 'admin' | null>(null);
@@ -33,8 +35,12 @@ export default function AccountPage() {
       <div className="max-w-7xl mx-auto">
         
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-5xl font-extrabold text-purple-900 mb-4">অ্যাকাউন্ট লগইন</h1>
-          <p className="text-gray-600">আপনার সঠিক রোল নির্বাচন করে সিস্টেমে প্রবেশ করুন</p>
+          <h1 className="text-3xl md:text-5xl font-extrabold text-purple-900 mb-4">
+            {t("অ্যাকাউন্ট লগইন", "Account Login")}
+          </h1>
+          <p className="text-gray-600">
+            {t("আপনার সঠিক রোল নির্বাচন করে সিস্টেমে প্রবেশ করুন", "Select your role to access the system.")}
+          </p>
         </div>
 
         {/* The Three Columns */}
@@ -42,10 +48,10 @@ export default function AccountPage() {
           
           {/* 1. Student Column */}
           <LoginCard 
-            title="শিক্ষার্থী"
+            title={t("শিক্ষার্থী লগইন", "Student Login")}
             icon={<FaUserGraduate className="text-blue-600" />}
-            label="ইউনিক আইডি (Unique ID)"
-            placeholder="আপনার আইডি দিন"
+            label={t("ইউনিক আইডি (Unique ID)", "Unique ID")}
+            placeholder={t("আপনার আইডি দিন", "Enter your ID")}
             type="text"
             role="student"
             value={idOrPhone}
@@ -57,10 +63,10 @@ export default function AccountPage() {
 
           {/* 2. Teacher Column */}
           <LoginCard 
-            title="শিক্ষক"
+            title={t("শিক্ষক লগইন", "Teacher Login")}
             icon={<FaChalkboardTeacher className="text-green-600" />}
-            label="মোবাইল নম্বর"
-            placeholder="০১৭XXXXXXXX"
+            label={t("মোবাইল নম্বর", "Mobile Number")}
+            placeholder={t("০১৭XXXXXXXX", "017XXXXXXXX")}
             type="tel"
             role="teacher"
             value={idOrPhone}
@@ -72,10 +78,10 @@ export default function AccountPage() {
 
           {/* 3. Admin Column */}
           <LoginCard 
-            title="এডমিন"
+            title={t("এডমিন লগইন", "Admin Login")}
             icon={<FaUserShield className="text-red-600" />}
-            label="মোবাইল নম্বর / ইউজারনেম"
-            placeholder="এডমিন আইডি"
+            label={t("মোবাইল নম্বর / ইউজারনেম", "Mobile Number / Username")}
+            placeholder={t("এডমিন আইডি", "Admin ID")}
             type="text"
             role="admin"
             value={idOrPhone}
@@ -107,10 +113,12 @@ type LoginCardProps = {
 };
 
 function LoginCard({ title, icon, label, placeholder, type, role, value, passValue, onSubmit, onIdChange, onPassChange }: LoginCardProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-gray-100 flex flex-col hover:border-purple-300 transition-all">
       <div className="text-5xl mb-4 flex justify-center">{icon}</div>
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">{title} লগইন</h2>
+      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">{title}</h2>
       
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
@@ -125,7 +133,9 @@ function LoginCard({ title, icon, label, placeholder, type, role, value, passVal
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">পাসওয়ার্ড</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">
+            {t("পাসওয়ার্ড", "Password")}
+          </label>
           <div className="relative">
             <FaLock className="absolute left-3 top-4 text-gray-400" />
             <input 
@@ -142,12 +152,12 @@ function LoginCard({ title, icon, label, placeholder, type, role, value, passVal
           type="submit"
           className="w-full bg-purple-700 text-white font-bold py-4 rounded-xl hover:bg-purple-800 transition shadow-lg mt-4"
         >
-          লগইন করুন
+          {t("লগইন করুন", "Log In")}
         </button>
       </form>
       
       <p className="text-center text-xs text-gray-400 mt-6 italic">
-        * আইডি ভুলে গেলে অফিস যোগযোগ করুন
+        {t("* আইডি ভুলে গেলে অফিস যোগযোগ করুন", "* If you forget your ID, contact the office.")}
       </p>
     </div>
   );

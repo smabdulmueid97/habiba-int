@@ -1,9 +1,11 @@
 "use client";
 import { useState, useEffect } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 
 // This component expects to receive an array of image paths
 export default function ImageSlider({ images }: { images: string[] }) {
   const [currentSetIndex, setCurrentSetIndex] = useState(0);
+  const { t } = useLanguage();
 
   // Group the flat array of images into smaller arrays of 4 (for our 2x2 grid)
   const imageSets: string[][] = [];
@@ -27,7 +29,7 @@ export default function ImageSlider({ images }: { images: string[] }) {
   if (images.length === 0) {
     return (
       <div className="bg-white p-10 rounded-2xl shadow-md text-center text-purple-800 font-bold">
-        কোনো ছবি পাওয়া যায়নি! (No pictures found in folder)
+        {t("কোনো ছবি পাওয়া যায়নি!", "No pictures found in the folder.")}
       </div>
     );
   }

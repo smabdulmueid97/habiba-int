@@ -2,29 +2,41 @@
   {
     "id": 1,
     "date": "০১ এপ্রিল ২০২৬",
+    "dateEn": "April 1, 2026",
     "subject": "পবিত্র ঈদুল ফিতর ও নববর্ষ উপলক্ষে স্কুল ছুটি সংক্রান্ত নোটিশ",
+    "subjectEn": "School holiday notice for Eid-ul-Fitr and Bengali New Year",
     "category": "ছুটি",
+    "categoryEn": "Holiday",
     "detailsLink": "#"
   },
   {
     "id": 2,
     "date": "২৮ মার্চ ২০২৬",
+    "dateEn": "March 28, 2026",
     "subject": "প্রথম সাময়িক পরীক্ষার রুটিন প্রকাশ",
+    "subjectEn": "First term exam routine published",
     "category": "পরীক্ষা",
+    "categoryEn": "Exam",
     "detailsLink": "#"
   },
   {
     "id": 3,
     "date": "১৫ মার্চ ২০২৬",
+    "dateEn": "March 15, 2026",
     "subject": "বার্ষিক ক্রীড়া প্রতিযোগিতার পুরস্কার বিতরণী অনুষ্ঠান",
+    "subjectEn": "Annual sports competition prize-giving ceremony",
     "category": "অনুষ্ঠান",
+    "categoryEn": "Event",
     "detailsLink": "#"
   },
   {
     "id": 4,
     "date": "০৫ মার্চ ২০২৬",
+    "dateEn": "March 5, 2026",
     "subject": "নতুন শিক্ষাবর্ষের ভর্তি প্রক্রিয়া শুরু",
+    "subjectEn": "Admissions open for the new academic year",
     "category": "ভর্তি",
+    "categoryEn": "Admission",
     "detailsLink": "#"
   }
 ]

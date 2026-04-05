@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'; 
 import { 
   FaCheckCircle, 
@@ -11,9 +11,27 @@ import {
   FaGraduationCap,
   FaCamera
 } from "react-icons/fa";
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Admission() {
   const router = useRouter(); 
+  const { t, language } = useLanguage();
+
+  const classOptions = [
+    { value: "Play", bn: "প্লে (Play)", en: "Play" },
+    { value: "Nursery", bn: "নার্সারি (Nursery)", en: "Nursery" },
+    { value: "KG", bn: "কেজি (KG)", en: "KG" },
+    { value: "01", bn: "প্রথম (Class 1)", en: "Class 1" },
+    { value: "02", bn: "দ্বিতীয় (Class 2)", en: "Class 2" },
+    { value: "03", bn: "তৃতীয় (Class 3)", en: "Class 3" },
+    { value: "04", bn: "চতুর্থ (Class 4)", en: "Class 4" },
+    { value: "05", bn: "পঞ্চম (Class 5)", en: "Class 5" },
+    { value: "06", bn: "ষষ্ঠ (Class 6)", en: "Class 6" },
+    { value: "07", bn: "সপ্তম (Class 7)", en: "Class 7" },
+    { value: "08", bn: "অষ্টম (Class 8)", en: "Class 8" },
+    { value: "09", bn: "নবম (Class 9)", en: "Class 9" },
+    { value: "10", bn: "দশম (Class 10)", en: "Class 10" }
+  ];
   
   // Text Form Data State
   const [formData, setFormData] = useState({
@@ -65,6 +83,18 @@ export default function Admission() {
     isAgreed: false
   });
 
+  useEffect(() => {
+    setFormData((prev) => {
+      if (language === "EN" && prev.nationality === "বাংলাদেশী") {
+        return { ...prev, nationality: "Bangladeshi" };
+      }
+      if (language === "BN" && prev.nationality === "Bangladeshi") {
+        return { ...prev, nationality: "বাংলাদেশী" };
+      }
+      return prev;
+    });
+  }, [language]);
+
   // File Upload State
   const [fileData, setFileData] = useState({
     studentPhoto: null as File | null,
@@ -97,7 +127,7 @@ export default function Admission() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if(!formData.isAgreed) {
-        alert("আপনাকে অঙ্গীকারনামায় সম্মতি প্রদান করতে হবে।");
+        alert(t("আপনাকে অঙ্গীকারনামায় সম্মতি প্রদান করতে হবে।", "You must agree to the declaration."));
         return;
     }
     setIsSubmitting(true);
@@ -127,11 +157,11 @@ export default function Admission() {
       if (data.success) {
         setGeneratedId(data.student?.id || "HIS-2026-001"); 
       } else {
-        alert("There was an error generating your ID.");
+        alert(t("আপনার আইডি তৈরি করতে সমস্যা হয়েছে।", "There was an error generating your ID."));
       }
     } catch (error) {
       console.error("Submission failed:", error);
-      alert("An error occurred connecting to the server.");
+      alert(t("সার্ভারের সাথে সংযোগে সমস্যা হয়েছে।", "An error occurred connecting to the server."));
     } finally {
       setIsSubmitting(false);
     }
@@ -147,11 +177,20 @@ export default function Admission() {
       {/* 1. Header Section - Teal Background */}
       <section className="bg-teal-800 text-white pt-16 pb-24 px-6 text-center shadow-md">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-black mb-2 tracking-widest uppercase">Admission Form</h1>
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-rose-200">হাবিবা ইন্টারন্যাশনাল স্কুল</h2>
+          <h1 className="text-4xl md:text-5xl font-black mb-2 tracking-widest uppercase">
+            {t("ভর্তি ফরম", "Admission Form")}
+          </h1>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-rose-200">
+            {t("হাবিবা ইন্টারন্যাশনাল স্কুল", "Habiba International School")}
+          </h2>
           <p className="text-sm md:text-base font-medium opacity-90">
-            (কম্পিউটার সমৃদ্ধ একটি আদর্শ ও ব্যতিক্রমধর্মী শিক্ষা প্রতিষ্ঠান)<br/>
-            ২৯, আল-মদিনা রোড, পূর্ব আহম্মদনগর, মিরপুর, ঢাকা।<br/>
+            {t(
+              "(কম্পিউটার সমৃদ্ধ একটি আদর্শ ও ব্যতিক্রমধর্মী শিক্ষা প্রতিষ্ঠান)",
+              "(A modern and distinctive institution enriched with technology)"
+            )}
+            <br/>
+            {t("২৯, আল-মদিনা রোড, পূর্ব আহম্মদনগর, মিরপুর, ঢাকা।", "29 Al Madina Road, East Ahmednagar, Mirpur, Dhaka.")}
+            <br/>
             <span className="bg-white text-teal-900 px-3 py-1 rounded-full text-xs font-bold mt-3 inline-block">EIIN: 134452</span>
           </p>
         </div>
@@ -165,12 +204,16 @@ export default function Admission() {
             <div className="bg-teal-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
               <FaCheckCircle className="text-teal-600 text-5xl" />
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">অভিনন্দন! রেজিস্ট্রেশন সফল হয়েছে।</h3>
-            <p className="text-gray-600 mb-6 text-lg">শিক্ষার্থীর নাম: <strong className="text-gray-900">{formData.studentNameBN || formData.studentNameEN}</strong></p>
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+              {t("অভিনন্দন! রেজিস্ট্রেশন সফল হয়েছে।", "Congratulations! Registration successful.")}
+            </h3>
+            <p className="text-gray-600 mb-6 text-lg">
+              {t("শিক্ষার্থীর নাম:", "Student Name:")} <strong className="text-gray-900">{formData.studentNameBN || formData.studentNameEN}</strong>
+            </p>
             
             <div className="bg-gray-50 py-6 px-8 rounded-xl border border-gray-200 inline-block mb-6">
               <p className="text-teal-700 text-sm font-bold uppercase tracking-widest mb-2 flex items-center justify-center gap-2">
-                <FaIdCard /> আপনার ইউনিক স্টুডেন্ট আইডি
+                <FaIdCard /> {t("আপনার ইউনিক স্টুডেন্ট আইডি", "Your Unique Student ID")}
               </p>
               <div className="text-4xl md:text-5xl font-black text-rose-600 tracking-wider">
                 {generatedId}
@@ -178,14 +221,14 @@ export default function Admission() {
             </div>
             
             <p className="mb-8 text-sm text-rose-600 font-bold bg-rose-50 py-3 px-4 rounded-lg">
-              ⚠️ দয়া করে এই আইডিটি সংরক্ষণ করুন। এটি অনুমোদনের অপেক্ষায় আছে।
+              {t("⚠️ দয়া করে এই আইডিটি সংরক্ষণ করুন। এটি অনুমোদনের অপেক্ষায় আছে।", "⚠️ Please save this ID. It is pending approval.")}
             </p>
             
             <button 
               onClick={handleGoToProfile} 
               className="bg-rose-600 hover:bg-rose-700 text-white font-bold px-10 py-4 rounded-lg transition-colors shadow-md w-full md:w-auto text-lg"
             >
-              প্রোফাইলে যান
+              {t("প্রোফাইলে যান", "Go to Profile")}
             </button>
           </div>
         ) : (
@@ -195,52 +238,46 @@ export default function Admission() {
             <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
               <div className="bg-teal-800 text-white px-6 py-4 flex items-center gap-3">
                 <FaUserGraduate className="text-xl" />
-                <h2 className="text-xl font-bold uppercase tracking-wide">Student's Information (শিক্ষার্থীর তথ্য)</h2>
+                <h2 className="text-xl font-bold uppercase tracking-wide">
+                  {t("শিক্ষার্থীর তথ্য", "Student Information")}
+                </h2>
               </div>
               <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2 text-sm">শিক্ষার্থীর নাম (বাংলায়) *</label>
+                  <label className="block text-gray-700 font-bold mb-2 text-sm">{t("শিক্ষার্থীর নাম (বাংলায়) *", "Student Name (Bangla) *")}</label>
                   <input type="text" name="studentNameBN" required value={formData.studentNameBN} onChange={handleChange} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all" />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2 text-sm">Student's Name (English) *</label>
+                  <label className="block text-gray-700 font-bold mb-2 text-sm">{t("শিক্ষার্থীর নাম (ইংরেজি) *", "Student Name (English) *")}</label>
                   <input type="text" name="studentNameEN" required value={formData.studentNameEN} onChange={handleChange} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none uppercase transition-all" />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2 text-sm">ভর্তি ইচ্ছুক শ্রেণি (Class) *</label>
+                  <label className="block text-gray-700 font-bold mb-2 text-sm">{t("ভর্তি ইচ্ছুক শ্রেণি *", "Applying For Class *")}</label>
                   <select name="classLevel" required value={formData.classLevel} onChange={handleChange} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all cursor-pointer">
-                    <option value="Play">Play</option>
-                    <option value="Nursery">Nursery</option>
-                    <option value="KG">KG</option>
-                    <option value="01">প্রথম (Class 1)</option>
-                    <option value="02">দ্বিতীয় (Class 2)</option>
-                    <option value="03">তৃতীয় (Class 3)</option>
-                    <option value="04">চতুর্থ (Class 4)</option>
-                    <option value="05">পঞ্চম (Class 5)</option>
-                    <option value="06">ষষ্ঠ (Class 6)</option>
-                    <option value="07">সপ্তম (Class 7)</option>
-                    <option value="08">অষ্টম (Class 8)</option>
-                    <option value="09">নবম (Class 9)</option>
-                    <option value="10">দশম (Class 10)</option>
+                    {classOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {language === "BN" ? option.bn : option.en}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2 text-sm">Date of Birth (জন্ম তারিখ) *</label>
+                  <label className="block text-gray-700 font-bold mb-2 text-sm">{t("জন্ম তারিখ *", "Date of Birth *")}</label>
                   <input type="date" name="dob" required value={formData.dob} onChange={handleChange} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all" />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-bold mb-2 text-sm">Nationality (জাতীয়তা)</label>
+                  <label className="block text-gray-700 font-bold mb-2 text-sm">{t("জাতীয়তা", "Nationality")}</label>
                   <input type="text" name="nationality" value={formData.nationality} onChange={handleChange} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-gray-700 font-bold mb-2 text-sm">Religion (ধর্ম)</label>
+                    <label className="block text-gray-700 font-bold mb-2 text-sm">{t("ধর্ম", "Religion")}</label>
                     <input type="text" name="religion" value={formData.religion} onChange={handleChange} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all" />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-bold mb-2 text-sm">Blood Group</label>
+                    <label className="block text-gray-700 font-bold mb-2 text-sm">{t("রক্তের গ্রুপ", "Blood Group")}</label>
                     <select name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all">
-                      <option value="">Select</option>
+                      <option value="">{t("নির্বাচন করুন", "Select")}</option>
                       <option value="A+">A+</option>
                       <option value="A-">A-</option>
                       <option value="B+">B+</option>
@@ -259,23 +296,29 @@ export default function Admission() {
             <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
               <div className="bg-teal-800 text-white px-6 py-4 flex items-center gap-3">
                 <FaUserTie className="text-xl" />
-                <h2 className="text-xl font-bold uppercase tracking-wide">Parents Information (পিতা-মাতার তথ্য)</h2>
+                <h2 className="text-xl font-bold uppercase tracking-wide">
+                  {t("পিতা-মাতার তথ্য", "Parents Information")}
+                </h2>
               </div>
               <div className="p-6 md:p-8">
-                <h3 className="font-bold text-teal-700 border-b border-gray-200 pb-2 mb-4">Father's Info</h3>
+                <h3 className="font-bold text-teal-700 border-b border-gray-200 pb-2 mb-4">
+                  {t("পিতার তথ্য", "Father's Info")}
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">পিতার নাম (বাংলায়) *</label><input type="text" name="fatherNameBN" required value={formData.fatherNameBN} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
-                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">Father's Name (English)</label><input type="text" name="fatherNameEN" value={formData.fatherNameEN} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none uppercase" /></div>
-                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">Mobile No *</label><input type="tel" name="fatherPhone" required value={formData.fatherPhone} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
-                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">NID Number</label><input type="text" name="fatherNID" value={formData.fatherNID} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
+                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">{t("পিতার নাম (বাংলায়) *", "Father's Name (Bangla) *")}</label><input type="text" name="fatherNameBN" required value={formData.fatherNameBN} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
+                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">{t("পিতার নাম (ইংরেজি)", "Father's Name (English)")}</label><input type="text" name="fatherNameEN" value={formData.fatherNameEN} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none uppercase" /></div>
+                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">{t("মোবাইল নম্বর *", "Mobile No *")}</label><input type="tel" name="fatherPhone" required value={formData.fatherPhone} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
+                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">{t("জাতীয় পরিচয়পত্র নম্বর", "NID Number")}</label><input type="text" name="fatherNID" value={formData.fatherNID} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
                 </div>
 
-                <h3 className="font-bold text-teal-700 border-b border-gray-200 pb-2 mb-4">Mother's Info</h3>
+                <h3 className="font-bold text-teal-700 border-b border-gray-200 pb-2 mb-4">
+                  {t("মাতার তথ্য", "Mother's Info")}
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">মাতার নাম (বাংলায়) *</label><input type="text" name="motherNameBN" required value={formData.motherNameBN} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
-                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">Mother's Name (English)</label><input type="text" name="motherNameEN" value={formData.motherNameEN} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none uppercase" /></div>
-                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">Mobile No</label><input type="tel" name="motherPhone" value={formData.motherPhone} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
-                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">NID Number</label><input type="text" name="motherNID" value={formData.motherNID} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
+                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">{t("মাতার নাম (বাংলায়) *", "Mother's Name (Bangla) *")}</label><input type="text" name="motherNameBN" required value={formData.motherNameBN} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
+                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">{t("মাতার নাম (ইংরেজি)", "Mother's Name (English)")}</label><input type="text" name="motherNameEN" value={formData.motherNameEN} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none uppercase" /></div>
+                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">{t("মোবাইল নম্বর", "Mobile No")}</label><input type="tel" name="motherPhone" value={formData.motherPhone} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
+                  <div><label className="block text-gray-700 font-bold mb-2 text-sm">{t("জাতীয় পরিচয়পত্র নম্বর", "NID Number")}</label><input type="text" name="motherNID" value={formData.motherNID} onChange={handleChange} className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500 outline-none" /></div>
                 </div>
               </div>
             </div>
@@ -284,21 +327,23 @@ export default function Admission() {
             <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
               <div className="bg-teal-800 text-white px-6 py-4 flex items-center gap-3">
                 <FaMapMarkerAlt className="text-xl" />
-                <h2 className="text-xl font-bold uppercase tracking-wide">Address (ঠিকানা)</h2>
+                <h2 className="text-xl font-bold uppercase tracking-wide">
+                  {t("ঠিকানা", "Address")}
+                </h2>
               </div>
               <div className="p-6 md:p-8">
                 <div className="mb-6">
-                  <label className="block text-gray-700 font-bold mb-2 text-sm">Present Address (বর্তমান ঠিকানা) *</label>
+                  <label className="block text-gray-700 font-bold mb-2 text-sm">{t("বর্তমান ঠিকানা *", "Present Address *")}</label>
                   <textarea name="presentAddress" required value={formData.presentAddress} onChange={handleChange} rows={2} className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all"></textarea>
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 font-bold mb-3 text-sm">Permanent Address (স্থায়ী ঠিকানা):</label>
+                  <label className="block text-gray-700 font-bold mb-3 text-sm">{t("স্থায়ী ঠিকানা:", "Permanent Address:")}</label>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">Village (গ্রাম)</label><input type="text" name="permVillage" value={formData.permVillage} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
-                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">Post (ডাকঘর)</label><input type="text" name="permPost" value={formData.permPost} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
-                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">Upazila (উপজেলা)</label><input type="text" name="permUpazila" value={formData.permUpazila} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
-                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">District (জেলা)</label><input type="text" name="permDistrict" value={formData.permDistrict} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
+                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">{t("গ্রাম", "Village")}</label><input type="text" name="permVillage" value={formData.permVillage} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
+                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">{t("ডাকঘর", "Post")}</label><input type="text" name="permPost" value={formData.permPost} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
+                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">{t("উপজেলা", "Upazila")}</label><input type="text" name="permUpazila" value={formData.permUpazila} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
+                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">{t("জেলা", "District")}</label><input type="text" name="permDistrict" value={formData.permDistrict} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
                   </div>
                 </div>
               </div>
@@ -308,52 +353,58 @@ export default function Admission() {
             <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
               <div className="bg-teal-800 text-white px-6 py-4 flex items-center gap-3">
                 <FaGraduationCap className="text-xl" />
-                <h2 className="text-xl font-bold uppercase tracking-wide">Other Information (অন্যান্য তথ্য)</h2>
+                <h2 className="text-xl font-bold uppercase tracking-wide">
+                  {t("অন্যান্য তথ্য", "Other Information")}
+                </h2>
               </div>
               <div className="p-6 md:p-8">
                 
                 <div className="mb-8">
-                  <h3 className="font-bold text-teal-700 border-b border-gray-200 pb-2 mb-4">Previous School Info (যদি থাকে)</h3>
+                  <h3 className="font-bold text-teal-700 border-b border-gray-200 pb-2 mb-4">
+                    {t("পূর্ববর্তী বিদ্যালয়ের তথ্য (যদি থাকে)", "Previous School Info (if any)")}
+                  </h3>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="md:col-span-2"><label className="text-xs text-gray-500 mb-1 block uppercase">School Name & Address</label><input type="text" name="prevSchoolName" value={formData.prevSchoolName} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
-                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">Class</label><input type="text" name="prevClass" value={formData.prevClass} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
-                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">Year</label><input type="text" name="prevYear" value={formData.prevYear} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
-                    <div className="md:col-span-4"><label className="text-xs text-gray-500 mb-1 block uppercase">TC No.</label><input type="text" name="tcNo" value={formData.tcNo} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
+                    <div className="md:col-span-2"><label className="text-xs text-gray-500 mb-1 block uppercase">{t("স্কুলের নাম ও ঠিকানা", "School Name & Address")}</label><input type="text" name="prevSchoolName" value={formData.prevSchoolName} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
+                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">{t("শ্রেণি", "Class")}</label><input type="text" name="prevClass" value={formData.prevClass} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
+                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">{t("সন", "Year")}</label><input type="text" name="prevYear" value={formData.prevYear} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
+                    <div className="md:col-span-4"><label className="text-xs text-gray-500 mb-1 block uppercase">{t("টিসি নম্বর", "TC No.")}</label><input type="text" name="tcNo" value={formData.tcNo} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
                   </div>
                 </div>
 
                 <div className="mb-8">
-                  <h3 className="font-bold text-teal-700 border-b border-gray-200 pb-2 mb-4">Local Guardian Info (পিতা-মাতার অবর্তমানে)</h3>
+                  <h3 className="font-bold text-teal-700 border-b border-gray-200 pb-2 mb-4">
+                    {t("স্থানীয় অভিভাবকের তথ্য (পিতা-মাতার অবর্তমানে)", "Local Guardian Info (if parents are absent)")}
+                  </h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">Name</label><input type="text" name="guardianName" value={formData.guardianName} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
-                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">Address</label><input type="text" name="guardianAddress" value={formData.guardianAddress} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
-                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">Mobile</label><input type="tel" name="guardianPhone" value={formData.guardianPhone} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
+                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">{t("নাম", "Name")}</label><input type="text" name="guardianName" value={formData.guardianName} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
+                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">{t("ঠিকানা", "Address")}</label><input type="text" name="guardianAddress" value={formData.guardianAddress} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
+                    <div><label className="text-xs text-gray-500 mb-1 block uppercase">{t("মোবাইল", "Mobile")}</label><input type="tel" name="guardianPhone" value={formData.guardianPhone} onChange={handleChange} className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-teal-500 outline-none" /></div>
                   </div>
                 </div>
 
                 {/* PSC & JSC */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="bg-gray-50 p-5 rounded-lg border border-gray-200">
-                    <h3 className="font-bold text-gray-800 mb-4">PSC / সমাপনী পরীক্ষার তথ্য</h3>
+                    <h3 className="font-bold text-gray-800 mb-4">{t("PSC / সমাপনী পরীক্ষার তথ্য", "PSC / Primary Exam Info")}</h3>
                     <div className="space-y-3">
-                      <input type="text" name="pscUpazila" placeholder="উপজেলা" value={formData.pscUpazila} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
-                      <input type="text" name="pscDistrict" placeholder="জেলা" value={formData.pscDistrict} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
-                      <input type="text" name="pscRoll" placeholder="রোল নম্বর" value={formData.pscRoll} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
+                      <input type="text" name="pscUpazila" placeholder={t("উপজেলা", "Upazila")} value={formData.pscUpazila} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
+                      <input type="text" name="pscDistrict" placeholder={t("জেলা", "District")} value={formData.pscDistrict} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
+                      <input type="text" name="pscRoll" placeholder={t("রোল নম্বর", "Roll Number")} value={formData.pscRoll} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
                       <div className="flex gap-3">
-                        <input type="text" name="pscYear" placeholder="পাসের সন" value={formData.pscYear} onChange={handleChange} className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
-                        <input type="text" name="pscGpa" placeholder="প্রাপ্ত জিপিএ" value={formData.pscGpa} onChange={handleChange} className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
+                        <input type="text" name="pscYear" placeholder={t("পাসের সন", "Passing Year")} value={formData.pscYear} onChange={handleChange} className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
+                        <input type="text" name="pscGpa" placeholder={t("প্রাপ্ত জিপিএ", "GPA")} value={formData.pscGpa} onChange={handleChange} className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
                       </div>
                     </div>
                   </div>
                   <div className="bg-gray-50 p-5 rounded-lg border border-gray-200">
-                    <h3 className="font-bold text-gray-800 mb-4">JSC / JDC পরীক্ষার তথ্য</h3>
+                    <h3 className="font-bold text-gray-800 mb-4">{t("JSC / JDC পরীক্ষার তথ্য", "JSC / JDC Exam Info")}</h3>
                     <div className="space-y-3">
-                      <input type="text" name="jscBoard" placeholder="বোর্ডের নাম" value={formData.jscBoard} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
-                      <input type="text" name="jscReg" placeholder="রেজিঃ নম্বর" value={formData.jscReg} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
-                      <input type="text" name="jscRoll" placeholder="রোল নম্বর" value={formData.jscRoll} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
+                      <input type="text" name="jscBoard" placeholder={t("বোর্ডের নাম", "Board Name")} value={formData.jscBoard} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
+                      <input type="text" name="jscReg" placeholder={t("রেজিঃ নম্বর", "Registration No")} value={formData.jscReg} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
+                      <input type="text" name="jscRoll" placeholder={t("রোল নম্বর", "Roll Number")} value={formData.jscRoll} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
                       <div className="flex gap-3">
-                        <input type="text" name="jscYear" placeholder="পাসের সন" value={formData.jscYear} onChange={handleChange} className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
-                        <input type="text" name="jscGpa" placeholder="প্রাপ্ত জিপিএ" value={formData.jscGpa} onChange={handleChange} className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
+                        <input type="text" name="jscYear" placeholder={t("পাসের সন", "Passing Year")} value={formData.jscYear} onChange={handleChange} className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
+                        <input type="text" name="jscGpa" placeholder={t("প্রাপ্ত জিপিএ", "GPA")} value={formData.jscGpa} onChange={handleChange} className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:border-teal-500 outline-none text-sm" />
                       </div>
                     </div>
                   </div>
@@ -365,15 +416,21 @@ export default function Admission() {
             <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
               <div className="bg-teal-800 text-white px-6 py-4 flex items-center gap-3">
                 <FaCamera className="text-xl" />
-                <h2 className="text-xl font-bold uppercase tracking-wide">Photo Upload (ছবি আপলোড)</h2>
+                <h2 className="text-xl font-bold uppercase tracking-wide">
+                  {t("ছবি আপলোড", "Photo Upload")}
+                </h2>
               </div>
               <div className="p-6 md:p-8">
-                <p className="text-sm text-gray-500 mb-6 font-medium">দয়া করে পাসপোর্ট সাইজের ছবি আপলোড করুন।</p>
+                <p className="text-sm text-gray-500 mb-6 font-medium">
+                  {t("দয়া করে পাসপোর্ট সাইজের ছবি আপলোড করুন।", "Please upload passport-size photos.")}
+                </p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Student Photo */}
                   <div>
-                    <label className="block text-gray-700 font-bold mb-2 text-sm">শিক্ষার্থীর ছবি (Student) *</label>
+                    <label className="block text-gray-700 font-bold mb-2 text-sm">
+                      {t("শিক্ষার্থীর ছবি *", "Student Photo *")}
+                    </label>
                     <input 
                       type="file" 
                       name="studentPhoto" 
@@ -386,7 +443,9 @@ export default function Admission() {
                   
                   {/* Father Photo */}
                   <div>
-                    <label className="block text-gray-700 font-bold mb-2 text-sm">পিতার ছবি (Father) *</label>
+                    <label className="block text-gray-700 font-bold mb-2 text-sm">
+                      {t("পিতার ছবি *", "Father Photo *")}
+                    </label>
                     <input 
                       type="file" 
                       name="fatherPhoto" 
@@ -399,7 +458,9 @@ export default function Admission() {
 
                   {/* Mother Photo */}
                   <div>
-                    <label className="block text-gray-700 font-bold mb-2 text-sm">মাতার ছবি (Mother) *</label>
+                    <label className="block text-gray-700 font-bold mb-2 text-sm">
+                      {t("মাতার ছবি *", "Mother Photo *")}
+                    </label>
                     <input 
                       type="file" 
                       name="motherPhoto" 
@@ -418,7 +479,11 @@ export default function Admission() {
               <label className="inline-flex items-start gap-3 cursor-pointer text-left mb-8 max-w-3xl mx-auto">
                 <input type="checkbox" name="isAgreed" checked={formData.isAgreed} onChange={handleChange} className="w-5 h-5 mt-1 accent-teal-600 cursor-pointer" />
                 <span className="text-gray-700 text-sm md:text-base leading-relaxed">
-                  <strong>অঙ্গীকারনামা:</strong> আমি এ মর্মে অঙ্গীকার করছি যে, অত্র বিদ্যালয়ের সকল নিয়ম-কানুন মেনে চলব এবং স্বীকার করছি যে, ফরমে উল্লেখিত তথ্যগুলো সঠিক।
+                  <strong>{t("অঙ্গীকারনামা:", "Declaration:")}</strong>{" "}
+                  {t(
+                    "আমি এ মর্মে অঙ্গীকার করছি যে, অত্র বিদ্যালয়ের সকল নিয়ম-কানুন মেনে চলব এবং স্বীকার করছি যে, ফরমে উল্লেখিত তথ্যগুলো সঠিক।",
+                    "I hereby declare that I will follow all school rules and confirm that the information provided in this form is correct."
+                  )}
                 </span>
               </label>
 
@@ -427,7 +492,7 @@ export default function Admission() {
                 disabled={isSubmitting}
                 className={`block w-full max-w-md mx-auto text-white font-bold text-xl py-4 rounded-md shadow-lg transform transition-all uppercase tracking-wide ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-rose-600 hover:bg-rose-700 hover:scale-[1.02] active:scale-[0.98]'}`}
               >
-                {isSubmitting ? 'Processing...' : 'Submit Form'}
+                {isSubmitting ? t("প্রক্রিয়াধীন...", "Processing...") : t("ফরম জমা দিন", "Submit Form")}
               </button>
             </div>
           </form>

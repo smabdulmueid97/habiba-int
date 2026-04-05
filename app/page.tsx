@@ -1,8 +1,11 @@
 "use client";
 import Link from 'next/link';
 import { FaUserPlus, FaLaptopCode, FaVideo, FaBookOpen } from 'react-icons/fa';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Home() {
+  const { t } = useLanguage();
+
   return (
     <main className="relative min-h-screen bg-white overflow-hidden">
       
@@ -23,21 +26,24 @@ export default function Home() {
             {/* Left Side: Animated Text */}
             <div className="lg:w-3/5 text-center lg:text-left space-y-5">
               <div className="inline-block bg-amber-400 text-slate-950 px-3 py-1 rounded-full font-black text-xs md:text-sm uppercase tracking-wider shadow-lg">
-                ভর্তি চলছে — শিক্ষাবর্ষ ২০২৬
+                {t("ভর্তি চলছে — শিক্ষাবর্ষ ২০২৬", "Admissions Open — Academic Year 2026")}
               </div>
               
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight bg-gradient-to-r from-white via-amber-200 to-purple-200 bg-clip-text text-transparent animate-color-shift">
-                আপনার সন্তানের উজ্জল ভবিষ্যৎ আমাদের অঙ্গীকার
+                {t("আপনার সন্তানের উজ্জল ভবিষ্যৎ আমাদের অঙ্গীকার", "Your Child’s Bright Future Is Our Commitment")}
               </h1>
               
               <p className="max-w-xl mx-auto lg:mx-0 leading-relaxed bg-gradient-to-r from-slate-200 via-amber-100 to-slate-100 bg-clip-text text-transparent text-base md:text-lg animate-color-shift">
-                আধুনিক ডিজিটাল ল্যাব, সিসি ক্যামেরা নিয়ন্ত্রিত ক্যাম্পাস এবং নৈতিক শিক্ষার সমন্বয়ে মিরপুরের শ্রেষ্ঠ বিদ্যাপীঠ। প্লে থেকে দশম শ্রেণি পর্যন্ত ভর্তি চলছে!
+                {t(
+                  "আধুনিক ডিজিটাল ল্যাব, সিসি ক্যামেরা নিয়ন্ত্রিত ক্যাম্পাস এবং নৈতিক শিক্ষার সমন্বয়ে মিরপুরের শ্রেষ্ঠ বিদ্যাপীঠ। প্লে থেকে দশম শ্রেণি পর্যন্ত ভর্তি চলছে!",
+                  "Mirpur’s leading institution with modern digital labs, CCTV-secured campus, and strong moral education. Admissions open from Play to Class Ten."
+                )}
               </p>
               
               <div className="flex flex-wrap justify-center lg:justify-start gap-3 mt-5">
-                <FeatureBadge icon={<FaLaptopCode />} text="ডিজিটাল ল্যাব" />
-                <FeatureBadge icon={<FaVideo />} text="সিসি ক্যামেরা" />
-                <FeatureBadge icon={<FaBookOpen />} text="আরবি সম্পূর্ণ ফ্রি" />
+                <FeatureBadge icon={<FaLaptopCode />} text={t("ডিজিটাল ল্যাব", "Digital Lab")} />
+                <FeatureBadge icon={<FaVideo />} text={t("সিসি ক্যামেরা", "CCTV Campus")} />
+                <FeatureBadge icon={<FaBookOpen />} text={t("আরবি সম্পূর্ণ ফ্রি", "Arabic Classes Free")} />
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
@@ -47,13 +53,13 @@ export default function Home() {
                   className="btn-rainbow-focus inline-block group"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-950 px-8 py-4 rounded-full font-black text-lg transition-all shadow-[0_0_20px_rgba(251,191,36,0.3)] group-hover:scale-105 active:scale-95">
-                    <FaUserPlus className="transition-transform group-hover:rotate-12"/> এখনই ভর্তি হোন
+                    <FaUserPlus className="transition-transform group-hover:rotate-12"/> {t("এখনই ভর্তি হোন", "Apply Now")}
                   </span>
                 </Link>
                 
                 {/* REPLACED BUTTON WITH LOCATION */}
                 <div className="bg-white/5 text-white border border-white/20 px-6 py-4 rounded-xl font-bold text-base md:text-lg backdrop-blur-md flex items-center shadow-lg">
-                  📍 ২৯ আল মদিনা রোড, মিরপুর-১
+                  {t("📍 ২৯ আল মদিনা রোড, মিরপুর-১", "📍 29 Al Madina Road, Mirpur-1")}
                 </div>
               </div>
             </div>
@@ -71,7 +77,7 @@ export default function Home() {
                 </div>
                 <div className="mt-4 text-center pb-2">
                   <a href="https://maps.app.goo.gl/BTE7EA2fDgbrSAKR7" target="_blank" className="inline-block bg-amber-400 text-slate-950 px-8 py-3 rounded-xl font-bold hover:bg-amber-500 transition shadow-lg text-sm">
-                    গুগল ম্যাপে দেখুন
+                    {t("গুগল ম্যাপে দেখুন", "View on Google Maps")}
                   </a>
                 </div>
               </div>

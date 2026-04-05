@@ -11,65 +11,86 @@ import {
   FaUserTimes, 
   FaPenNib 
 } from "react-icons/fa";
+import { useLanguage } from "@/context/LanguageContext";
 
 const infoSections = [
   {
     id: "introduction",
     title: "স্কুলের বিস্তারিত পরিচিতি",
+    titleEn: "School Introduction",
     icon: <FaSchool className="text-purple-600 text-2xl" />,
-    content: "হাবিবা ইন্টারন্যাশনাল স্কুল একটি আধুনিক ও যুগোপযোগী শিক্ষাপ্রতিষ্ঠান। আমাদের লক্ষ্য শুধু পাঠ্যপুস্তকের শিক্ষা নয়, বরং শিক্ষার্থীদের নৈতিক, সামাজিক ও মানসিক বিকাশ নিশ্চিত করা। উন্নত শিক্ষার পরিবেশ, অভিজ্ঞ শিক্ষকমণ্ডলী এবং আধুনিক প্রযুক্তির সমন্বয়ে আমরা একটি আলোকিত প্রজন্ম গড়তে প্রতিশ্রুতিবদ্ধ।"
+    content: "হাবিবা ইন্টারন্যাশনাল স্কুল একটি আধুনিক ও যুগোপযোগী শিক্ষাপ্রতিষ্ঠান। আমাদের লক্ষ্য শুধু পাঠ্যপুস্তকের শিক্ষা নয়, বরং শিক্ষার্থীদের নৈতিক, সামাজিক ও মানসিক বিকাশ নিশ্চিত করা। উন্নত শিক্ষার পরিবেশ, অভিজ্ঞ শিক্ষকমণ্ডলী এবং আধুনিক প্রযুক্তির সমন্বয়ে আমরা একটি আলোকিত প্রজন্ম গড়তে প্রতিশ্রুতিবদ্ধ।",
+    contentEn: "Habiba International School is a modern, forward-looking educational institution. Our goal is not only textbook learning but also ensuring students’ moral, social, and mental development. With an advanced learning environment, experienced teachers, and modern technology, we are committed to building an enlightened generation."
   },
   {
     id: "rules",
     title: "নিয়মাবলি",
+    titleEn: "Rules",
     icon: <FaGavel className="text-purple-600 text-2xl" />,
-    content: "সকল শিক্ষার্থীকে প্রতিদিন সঠিক সময়ে পরিষ্কার স্কুল ড্রেস পরে উপস্থিত হতে হবে। স্কুল প্রাঙ্গণে শৃঙ্খলা বজায় রাখা বাধ্যতামূলক। শিক্ষকদের প্রতি সম্মান প্রদর্শন এবং সহপাঠীদের সাথে ভালো আচরণ করতে হবে। বিনা অনুমতিতে স্কুল চলাকালীন সময়ে বাইরে যাওয়া সম্পূর্ণ নিষেধ।"
+    content: "সকল শিক্ষার্থীকে প্রতিদিন সঠিক সময়ে পরিষ্কার স্কুল ড্রেস পরে উপস্থিত হতে হবে। স্কুল প্রাঙ্গণে শৃঙ্খলা বজায় রাখা বাধ্যতামূলক। শিক্ষকদের প্রতি সম্মান প্রদর্শন এবং সহপাঠীদের সাথে ভালো আচরণ করতে হবে। বিনা অনুমতিতে স্কুল চলাকালীন সময়ে বাইরে যাওয়া সম্পূর্ণ নিষেধ।",
+    contentEn: "All students must arrive on time every day wearing a clean school uniform. Maintaining discipline on campus is mandatory. Respect teachers and behave well with classmates. Leaving campus during school hours without permission is strictly prohibited."
   },
   {
     id: "supplies",
     title: "কলম, বই ও খাতা",
+    titleEn: "Pens, Books, and Notebooks",
     icon: <FaPenNib className="text-purple-600 text-2xl" />,
-    content: "শিক্ষার্থীদের পড়াশোনার মান নিশ্চিত করতে এবং অভিভাবকদের চিন্তামুক্ত রাখতে, হাবিবা ইন্টারন্যাশনাল স্কুলের পক্ষ থেকে শিক্ষার্থীদের প্রয়োজনীয় কলম, বই এবং খাতা প্রদান করা হবে। শিক্ষার্থীদের এগুলো যত্ন সহকারে ব্যবহার করতে হবে।"
+    content: "শিক্ষার্থীদের পড়াশোনার মান নিশ্চিত করতে এবং অভিভাবকদের চিন্তামুক্ত রাখতে, হাবিবা ইন্টারন্যাশনাল স্কুলের পক্ষ থেকে শিক্ষার্থীদের প্রয়োজনীয় কলম, বই এবং খাতা প্রদান করা হবে। শিক্ষার্থীদের এগুলো যত্ন সহকারে ব্যবহার করতে হবে।",
+    contentEn: "To ensure quality study and keep guardians worry-free, Habiba International School will provide required pens, books, and notebooks. Students must use them carefully."
   },
   {
     id: "fees",
     title: "বেতন",
+    titleEn: "Fees",
     icon: <FaMoneyBillWave className="text-purple-600 text-2xl" />,
-    content: "প্রতি মাসের ১০ তারিখের মধ্যে চলতি মাসের বেতন পরিশোধ করতে হবে। বেতন পরিশোধে বিলম্ব হলে জরিমানা ধার্য করা হতে পারে। পরীক্ষার আগে অবশ্যই সকল বকেয়া পরিষ্কার করতে হবে। বেতন সংক্রান্ত যেকোনো আপডেটের জন্য নোটিশ বোর্ড লক্ষ্য রাখুন।"
+    content: "প্রতি মাসের ১০ তারিখের মধ্যে চলতি মাসের বেতন পরিশোধ করতে হবে। বেতন পরিশোধে বিলম্ব হলে জরিমানা ধার্য করা হতে পারে। পরীক্ষার আগে অবশ্যই সকল বকেয়া পরিষ্কার করতে হবে। বেতন সংক্রান্ত যেকোনো আপডেটের জন্য নোটিশ বোর্ড লক্ষ্য রাখুন।",
+    contentEn: "Monthly fees must be paid by the 10th of each month. Late payment may incur a fine. All dues must be cleared before exams. For fee-related updates, please check the notice board."
   },
   {
     id: "admission",
     title: "ভর্তি সংক্রান্ত",
+    titleEn: "Admissions",
     icon: <FaUserGraduate className="text-purple-600 text-2xl" />,
-    content: "নতুন শিক্ষাবর্ষের ভর্তি প্রক্রিয়া সাধারণত ডিসেম্বর মাসে শুরু হয়। ভর্তির সময় শিক্ষার্থীর জন্ম নিবন্ধন, পাসপোর্ট সাইজ ছবি এবং পূর্ববর্তী স্কুলের ছাড়পত্র (প্রযোজ্য ক্ষেত্রে) জমা দিতে হবে। ভর্তি পরীক্ষার ফলাফলের ভিত্তিতে মেধা তালিকা প্রকাশ করা হয়।"
+    content: "নতুন শিক্ষাবর্ষের ভর্তি প্রক্রিয়া সাধারণত ডিসেম্বর মাসে শুরু হয়। ভর্তির সময় শিক্ষার্থীর জন্ম নিবন্ধন, পাসপোর্ট সাইজ ছবি এবং পূর্ববর্তী স্কুলের ছাড়পত্র (প্রযোজ্য ক্ষেত্রে) জমা দিতে হবে। ভর্তি পরীক্ষার ফলাফলের ভিত্তিতে মেধা তালিকা প্রকাশ করা হয়।",
+    contentEn: "Admissions for the new academic year usually start in December. At admission, submit the student’s birth certificate, passport-size photo, and previous school clearance (if applicable). The merit list is published based on the admission test results."
   },
   {
     id: "exams",
     title: "পরীক্ষা সংক্রান্ত",
+    titleEn: "Examinations",
     icon: <FaFileAlt className="text-purple-600 text-2xl" />,
-    content: "বছরে মোট তিনটি প্রধান পরীক্ষা অনুষ্ঠিত হয় (প্রথম সাময়িক, দ্বিতীয় সাময়িক এবং বার্ষিক)। এছাড়াও প্রতি মাসে ক্লাস টেস্ট নেওয়া হয়। পরীক্ষায় অসদুপায় অবলম্বন করলে কঠোর শাস্তিমূলক ব্যবস্থা গ্রহণ করা হবে।"
+    content: "বছরে মোট তিনটি প্রধান পরীক্ষা অনুষ্ঠিত হয় (প্রথম সাময়িক, দ্বিতীয় সাময়িক এবং বার্ষিক)। এছাড়াও প্রতি মাসে ক্লাস টেস্ট নেওয়া হয়। পরীক্ষায় অসদুপায় অবলম্বন করলে কঠোর শাস্তিমূলক ব্যবস্থা গ্রহণ করা হবে।",
+    contentEn: "There are three main exams each year (Term 1, Term 2, and Final). Monthly class tests are also held. Cheating in exams will result in strict disciplinary action."
   },
   {
     id: "absence",
     title: "অনুপস্থিতি",
+    titleEn: "Absence",
     icon: <FaUserTimes className="text-purple-600 text-2xl" />,
-    content: "বিনা নোটিশে পর পর ৩ দিন অনুপস্থিত থাকলে অভিভাবককে তলব করা হবে। অসুস্থতা বা অন্য কোনো যুক্তিসঙ্গত কারণে অনুপস্থিত থাকলে অবশ্যই ক্লাস টিচারকে জানাতে হবে। মোট উপস্থিতির হার ৭৫% এর নিচে হলে পরীক্ষায় অংশগ্রহণের সুযোগ বাতিল হতে পারে।"
+    content: "বিনা নোটিশে পর পর ৩ দিন অনুপস্থিত থাকলে অভিভাবককে তলব করা হবে। অসুস্থতা বা অন্য কোনো যুক্তিসঙ্গত কারণে অনুপস্থিত থাকলে অবশ্যই ক্লাস টিচারকে জানাতে হবে। মোট উপস্থিতির হার ৭৫% এর নিচে হলে পরীক্ষায় অংশগ্রহণের সুযোগ বাতিল হতে পারে।",
+    contentEn: "If a student is absent for 3 consecutive days without notice, guardians will be called. In case of illness or other valid reasons, inform the class teacher. If attendance falls below 75%, the student may be barred from exams."
   },
   {
     id: "applications",
     title: "দরখাস্ত",
+    titleEn: "Applications",
     icon: <FaEnvelopeOpenText className="text-purple-600 text-2xl" />,
-    content: "ছুটি, ছাড়পত্র বা অন্য যেকোনো প্রাতিষ্ঠানিক প্রয়োজনে প্রধান শিক্ষক বরাবর লিখিত দরখাস্ত জমা দিতে হবে। অসুস্থতাজনিত ছুটির ক্ষেত্রে অবশ্যই চিকিৎসকের ব্যবস্থাপত্র (Medical Certificate) দরখাস্তের সাথে সংযুক্ত করতে হবে।"
+    content: "ছুটি, ছাড়পত্র বা অন্য যেকোনো প্রাতিষ্ঠানিক প্রয়োজনে প্রধান শিক্ষক বরাবর লিখিত দরখাস্ত জমা দিতে হবে। অসুস্থতাজনিত ছুটির ক্ষেত্রে অবশ্যই চিকিৎসকের ব্যবস্থাপত্র (Medical Certificate) দরখাস্তের সাথে সংযুক্ত করতে হবে।",
+    contentEn: "For leave, transfer certificate, or any institutional need, submit a written application to the head teacher. For sick leave, attach a medical certificate."
   },
   {
     id: "qna",
     title: "প্রশ্ন ও উত্তর",
+    titleEn: "Questions & Answers",
     icon: <FaQuestionCircle className="text-purple-600 text-2xl" />,
-    content: "প্রশ্ন: স্কুলের সময়সূচি কী?\nউত্তর: সকাল ৮:০০ টা থেকে দুপুর ১:৩০ টা পর্যন্ত ক্লাস চলে।\n\nপ্রশ্ন: স্কুলে কি ট্রান্সপোর্টের ব্যবস্থা আছে?\nউত্তর: হ্যাঁ, নির্দিষ্ট রুটে স্কুলের নিজস্ব পরিবহন ব্যবস্থা রয়েছে। বিস্তারিত জানতে অফিসে যোগাযোগ করুন।"
+    content: "প্রশ্ন: স্কুলের সময়সূচি কী?\nউত্তর: সকাল ৮:০০ টা থেকে দুপুর ১:৩০ টা পর্যন্ত ক্লাস চলে।\n\nপ্রশ্ন: স্কুলে কি ট্রান্সপোর্টের ব্যবস্থা আছে?\nউত্তর: হ্যাঁ, নির্দিষ্ট রুটে স্কুলের নিজস্ব পরিবহন ব্যবস্থা রয়েছে। বিস্তারিত জানতে অফিসে যোগাযোগ করুন।",
+    contentEn: "Q: What are the school hours?\nA: Classes run from 8:00 AM to 1:30 PM.\n\nQ: Is transport available?\nA: Yes, the school has its own transport on specific routes. Contact the office for details."
   }
 ];
 
 export default function RulesAndInfo() {
+  const { t, language } = useLanguage();
+
   return (
     <main className="min-h-[calc(100vh-80px)] bg-white p-6 md:p-12">
       
@@ -77,10 +98,13 @@ export default function RulesAndInfo() {
       {/* Increased max-w to 7xl to match the grid width below */}
       <div className="max-w-7xl mx-auto mb-12 text-center">
         <h1 className="text-3xl md:text-5xl font-extrabold text-purple-900">
-          নিয়ম ও তথ্যাদি
+          {t("নিয়ম ও তথ্যাদি", "Rules & Information")}
         </h1>
         <p className="mt-4 text-gray-700 text-lg max-w-3xl mx-auto">
-          স্কুলের সকল নিয়ম-কানুন, ভর্তি প্রক্রিয়া এবং অন্যান্য গুরুত্বপূর্ণ তথ্যাদি নিচে বিস্তারিত আলোচনা করা হলো।
+          {t(
+            "স্কুলের সকল নিয়ম-কানুন, ভর্তি প্রক্রিয়া এবং অন্যান্য গুরুত্বপূর্ণ তথ্যাদি নিচে বিস্তারিত আলোচনা করা হলো।",
+            "All school rules, admission procedures, and other important information are detailed below."
+          )}
         </p>
       </div>
 
@@ -98,13 +122,13 @@ export default function RulesAndInfo() {
                 {section.icon}
               </div>
               <h2 className="text-xl font-bold text-gray-900">
-                {section.title}
+                {language === "BN" ? section.title : section.titleEn}
               </h2>
             </div>
             
             {/* The text takes up the remaining space */}
             <p className="text-gray-700 leading-relaxed text-sm md:text-base whitespace-pre-line flex-grow">
-              {section.content}
+              {language === "BN" ? section.content : section.contentEn}
             </p>
           </div>
         ))}

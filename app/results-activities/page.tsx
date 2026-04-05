@@ -1,12 +1,24 @@
+"use client";
+
 import Link from 'next/link';
 import { FaDownload, FaFilePdf, FaTable } from 'react-icons/fa';
+import { useLanguage } from '@/context/LanguageContext';
 
 // ৩টি টার্মের ডেমো ডাটা সেটআপ
 const classes = [
-  "প্লে (Play)", "নার্সারি (Nursery)", "কেজি (KG)", 
-  "প্রথম (One)", "দ্বিতীয় (Two)", "তৃতীয় (Three)", 
-  "চতুর্থ (Four)", "পঞ্চম (Five)", "ষষ্ঠ (Six)", 
-  "সপ্তম (Seven)", "অষ্টম (Eight)", "নবম (Nine)", "দশম (Ten)"
+  { bn: "প্লে (Play)", en: "Play" },
+  { bn: "নার্সারি (Nursery)", en: "Nursery" },
+  { bn: "কেজি (KG)", en: "KG" },
+  { bn: "প্রথম (One)", en: "Class One" },
+  { bn: "দ্বিতীয় (Two)", en: "Class Two" },
+  { bn: "তৃতীয় (Three)", en: "Class Three" },
+  { bn: "চতুর্থ (Four)", en: "Class Four" },
+  { bn: "পঞ্চম (Five)", en: "Class Five" },
+  { bn: "ষষ্ঠ (Six)", en: "Class Six" },
+  { bn: "সপ্তম (Seven)", en: "Class Seven" },
+  { bn: "অষ্টম (Eight)", en: "Class Eight" },
+  { bn: "নবম (Nine)", en: "Class Nine" },
+  { bn: "দশম (Ten)", en: "Class Ten" }
 ];
 
 const academicData = classes.map(cls => ({
@@ -18,6 +30,8 @@ const academicData = classes.map(cls => ({
 }));
 
 export default function Results() {
+  const { t, language } = useLanguage();
+
   return (
     <main className="min-h-screen bg-slate-50 p-4 md:p-8 lg:p-12">
       <div className="max-w-[1400px] mx-auto">
@@ -25,10 +39,13 @@ export default function Results() {
         {/* --- HEADER --- */}
         <div className="mb-8 md:mb-12 text-center">
           <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight mb-3">
-            রেজাল্ট ও সিলেবাস
+            {t("রেজাল্ট ও সিলেবাস", "Results & Syllabus")}
           </h1>
           <p className="text-slate-500 text-sm md:text-lg max-w-2xl mx-auto">
-            শিক্ষার্থীদের বাৎসরিক ৩টি টার্মের (১ম সাময়িক, ২য় সাময়িক এবং বার্ষিক) ফলাফল এবং সিলেবাস এখান থেকে ডাউনলোড করতে পারবেন।
+            {t(
+              "শিক্ষার্থীদের বাৎসরিক ৩টি টার্মের (১ম সাময়িক, ২য় সাময়িক এবং বার্ষিক) ফলাফল এবং সিলেবাস এখান থেকে ডাউনলোড করতে পারবেন।",
+              "Download results and syllabus for the three annual terms (Term 1, Term 2, and Final) here."
+            )}
           </p>
         </div>
 
@@ -40,16 +57,26 @@ export default function Results() {
                 <FaTable className="text-2xl" />
               </div>
               <div>
-                <h2 className="text-xl md:text-2xl font-black">শ্রেণি ভিত্তিক ফলাফল</h2>
-                <p className="text-slate-400 text-xs md:text-sm mt-1">২০২৬ শিক্ষাবর্ষ</p>
+                <h2 className="text-xl md:text-2xl font-black">
+                  {t("শ্রেণি ভিত্তিক ফলাফল", "Class-wise Results")}
+                </h2>
+                <p className="text-slate-400 text-xs md:text-sm mt-1">
+                  {t("২০২৬ শিক্ষাবর্ষ", "Academic Year 2026")}
+                </p>
               </div>
             </div>
             
             {/* Legend for terms */}
             <div className="flex gap-3 text-xs font-bold">
-              <span className="bg-blue-900/50 px-3 py-1.5 rounded-lg border border-blue-700/50">T1 = ১ম সাময়িক</span>
-              <span className="bg-indigo-900/50 px-3 py-1.5 rounded-lg border border-indigo-700/50">T2 = ২য় সাময়িক</span>
-              <span className="bg-green-900/50 px-3 py-1.5 rounded-lg border border-green-700/50">Final = বার্ষিক</span>
+              <span className="bg-blue-900/50 px-3 py-1.5 rounded-lg border border-blue-700/50">
+                {t("T1 = ১ম সাময়িক", "T1 = Term 1")}
+              </span>
+              <span className="bg-indigo-900/50 px-3 py-1.5 rounded-lg border border-indigo-700/50">
+                {t("T2 = ২য় সাময়িক", "T2 = Term 2")}
+              </span>
+              <span className="bg-green-900/50 px-3 py-1.5 rounded-lg border border-green-700/50">
+                {t("Final = বার্ষিক", "Final = Annual")}
+              </span>
             </div>
           </div>
 
@@ -58,11 +85,11 @@ export default function Results() {
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-slate-100 border-b border-slate-200 text-slate-600 text-sm font-black uppercase tracking-wider">
-                  <th className="px-6 py-5 w-1/5">শ্রেণি (Class)</th>
-                  <th className="px-6 py-5 text-center">সিলেবাস</th>
-                  <th className="px-6 py-5 text-center">১ম সাময়িক ফলাফল</th>
-                  <th className="px-6 py-5 text-center">২য় সাময়িক ফলাফল</th>
-                  <th className="px-6 py-5 text-center">বার্ষিক ফলাফল</th>
+                  <th className="px-6 py-5 w-1/5">{t("শ্রেণি (Class)", "Class")}</th>
+                  <th className="px-6 py-5 text-center">{t("সিলেবাস", "Syllabus")}</th>
+                  <th className="px-6 py-5 text-center">{t("১ম সাময়িক ফলাফল", "Term 1 Result")}</th>
+                  <th className="px-6 py-5 text-center">{t("২য় সাময়িক ফলাফল", "Term 2 Result")}</th>
+                  <th className="px-6 py-5 text-center">{t("বার্ষিক ফলাফল", "Final Result")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -73,31 +100,33 @@ export default function Results() {
                         <span className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-500 group-hover:bg-amber-400 group-hover:text-slate-900 transition-all">
                           {idx + 1}
                         </span>
-                        <span className="font-bold text-slate-800 text-base">{item.class}</span>
+                        <span className="font-bold text-slate-800 text-base">
+                          {language === "BN" ? item.class.bn : item.class.en}
+                        </span>
                       </div>
                     </td>
                     
                     <td className="px-4 py-4 text-center">
                       <Link href={item.syllabus} className="inline-flex items-center gap-2 bg-slate-100 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-200 transition-all">
-                        <FaFilePdf className="text-red-500" /> সিলেবাস
+                        <FaFilePdf className="text-red-500" /> {t("সিলেবাস", "Syllabus")}
                       </Link>
                     </td>
 
                     <td className="px-4 py-4 text-center">
                       <Link href={item.term1} className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-600 hover:text-white transition-all">
-                        <FaDownload /> ডাউনলোড (T1)
+                        <FaDownload /> {t("ডাউনলোড (T1)", "Download (T1)")}
                       </Link>
                     </td>
 
                     <td className="px-4 py-4 text-center">
                       <Link href={item.term2} className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-600 hover:text-white transition-all">
-                        <FaDownload /> ডাউনলোড (T2)
+                        <FaDownload /> {t("ডাউনলোড (T2)", "Download (T2)")}
                       </Link>
                     </td>
 
                     <td className="px-4 py-4 text-center">
                       <Link href={item.final} className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-600 hover:text-white transition-all shadow-sm">
-                        <FaDownload /> ডাউনলোড (Final)
+                        <FaDownload /> {t("ডাউনলোড (Final)", "Download (Final)")}
                       </Link>
                     </td>
                   </tr>
@@ -112,24 +141,26 @@ export default function Results() {
               <div key={idx} className="py-6 flex flex-col gap-4">
                 <div className="flex items-center gap-3 mb-2 border-b border-gray-100 pb-2">
                   <span className="bg-amber-400 text-slate-900 font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm">{idx + 1}</span>
-                  <h3 className="font-black text-slate-900 text-xl">{item.class}</h3>
+                  <h3 className="font-black text-slate-900 text-xl">
+                    {language === "BN" ? item.class.bn : item.class.en}
+                  </h3>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-3">
                   <Link href={item.syllabus} className="col-span-2 flex items-center justify-center gap-2 bg-slate-100 text-slate-700 p-3 rounded-xl font-bold text-sm active:scale-95 transition-transform">
-                    <FaFilePdf className="text-red-500 text-lg" /> সিলেবাস ডাউনলোড
+                    <FaFilePdf className="text-red-500 text-lg" /> {t("সিলেবাস ডাউনলোড", "Download Syllabus")}
                   </Link>
                   
                   <Link href={item.term1} className="flex flex-col items-center justify-center gap-1 bg-blue-50 text-blue-700 p-3 rounded-xl font-bold text-xs active:scale-95 transition-transform">
-                    <FaDownload className="text-lg mb-1" /> ১ম সাময়িক
+                    <FaDownload className="text-lg mb-1" /> {t("১ম সাময়িক", "Term 1")}
                   </Link>
                   
                   <Link href={item.term2} className="flex flex-col items-center justify-center gap-1 bg-indigo-50 text-indigo-700 p-3 rounded-xl font-bold text-xs active:scale-95 transition-transform">
-                    <FaDownload className="text-lg mb-1" /> ২য় সাময়িক
+                    <FaDownload className="text-lg mb-1" /> {t("২য় সাময়িক", "Term 2")}
                   </Link>
                   
                   <Link href={item.final} className="col-span-2 flex items-center justify-center gap-2 bg-green-50 border border-green-200 text-green-700 p-3 rounded-xl font-bold text-sm active:scale-95 transition-transform">
-                    <FaDownload className="text-lg" /> বার্ষিক পরীক্ষার ফলাফল
+                    <FaDownload className="text-lg" /> {t("বার্ষিক পরীক্ষার ফলাফল", "Final Exam Result")}
                   </Link>
                 </div>
               </div>
@@ -137,7 +168,10 @@ export default function Results() {
           </div>
           
           <div className="bg-slate-50 p-6 text-center text-slate-500 text-xs md:text-sm font-medium">
-            * ফলাফল বা সিলেবাস ডাউনলোড করতে কোনো সমস্যা হলে সরাসরি স্কুল অফিসে যোগাযোগ করার অনুরোধ রইল।
+            {t(
+              "* ফলাফল বা সিলেবাস ডাউনলোড করতে কোনো সমস্যা হলে সরাসরি স্কুল অফিসে যোগাযোগ করার অনুরোধ রইল।",
+              "* If you face any issues downloading results or syllabus, please contact the school office."
+            )}
           </div>
         </section>
       </div>
