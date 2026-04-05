@@ -1,28 +1,16 @@
-// File: app/admission/page.tsx (or wherever your component is located)
 "use client";
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Import Next.js router for redirection
+import { useRouter } from 'next/navigation'; 
 import { 
-  FaMicrochip, 
   FaCheckCircle, 
   FaBookOpen,
   FaUserGraduate,
   FaIdCard
 } from "react-icons/fa";
 
-const features = [
-  "ডিজিটাল ক্যাম্পাস ও কম্পিউটার ল্যাব",
-  "প্রতিটি শ্রেণিকক্ষে সিসি ক্যামেরা",
-  "সার্বক্ষণিক বিদ্যুৎ ব্যবস্থা",
-  "ডিজিটাল সাউন্ড সিস্টেম",
-  "শিক্ষক ও শিক্ষার্থীদের ডিজিটাল হাজিরা",
-  "অনুপস্থিতি ও তথ্য SMS এর মাধ্যমে জানানো",
-  "আরবি ক্লাস সম্পূর্ণ ফ্রি (প্লে থেকে দশম)"
-];
-
 export default function Admission() {
-  const router = useRouter(); // Initialize router
+  const router = useRouter(); 
   const [formData, setFormData] = useState({
     studentName: '',
     classLevel: '01',
@@ -30,7 +18,7 @@ export default function Admission() {
   });
   
   const [generatedId, setGeneratedId] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // Loading state
+  const [isSubmitting, setIsSubmitting] = useState(false); 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,7 +29,6 @@ export default function Admission() {
     setIsSubmitting(true);
     
     try {
-      // Send data to our new backend API route
       const response = await fetch('/api/admission', {
         method: 'POST',
         headers: {
@@ -53,7 +40,6 @@ export default function Admission() {
       const data = await response.json();
       
       if (data.success) {
-        // Set the ID returned from the server
         setGeneratedId(data.student.id);
       } else {
         alert("There was an error generating your ID.");
@@ -66,7 +52,6 @@ export default function Admission() {
     }
   };
 
-  // Redirect to profile instead of resetting
   const handleGoToProfile = () => {
     router.push('/profile');
   };
@@ -118,7 +103,6 @@ export default function Admission() {
             </p>
             
             <div className="mt-8">
-              {/* Changed this button to push to /profile */}
               <button 
                 onClick={handleGoToProfile} 
                 className="bg-purple-700 hover:bg-purple-800 text-white font-bold px-8 py-3 rounded-xl transition-colors shadow-lg"
@@ -199,34 +183,7 @@ export default function Admission() {
         )}
       </section>
 
-      {/* 3. Why Choose Us */}
-      <section className="bg-gray-50 py-16 px-6">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">আমাদের ডিজিটাল কার্যক্রম:</h2>
-            <div className="space-y-4">
-              {features.map((feature, idx) => (
-                <div key={idx} className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border-l-4 border-red-500">
-                  <FaCheckCircle className="text-green-500 shrink-0" />
-                  <span className="text-gray-800 font-medium">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-white p-4 rounded-[2rem] shadow-2xl border border-gray-200">
-            <div className="bg-purple-50 rounded-2xl p-8 text-center">
-               <FaMicrochip className="text-6xl text-purple-700 mx-auto mb-4" />
-               <h3 className="text-2xl font-bold text-purple-900 mb-2">ডিজিটাল শিক্ষা ব্যবস্থা</h3>
-               <p className="text-gray-600">আমরা শিক্ষার্থীদের আধুনিক বিশ্বের চ্যালেঞ্জ মোকাবেলায় প্রস্তুত করতে ডিজিটাল ল্যাব এবং স্মার্ট ক্লাসরুম নিশ্চিত করি।</p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 4. Required Documents */}
+      {/* 3. Required Documents */}
       <section className="py-16 px-6 max-w-4xl mx-auto">
         <div className="bg-yellow-50 border-2 border-yellow-200 rounded-3xl p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
